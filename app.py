@@ -1,7 +1,10 @@
 import os, sys
+import time
 from PIL import Image, ImageOps
 
-size = (36, 36)
+time1 = time.time()
+output_file = "pillow-simd-output.jpg"
+size = (618, 412)
 
 def letterbox_image(image, size):
     '''resize image with unchanged aspect ratio using padding'''
@@ -32,7 +35,18 @@ for infile in sys.argv[1:]:
                 # im3 = ImageOps.contain(im, size, Image.LANCZOS)
                 # im3.save("abc2.jpg")
                 im2 = letterbox_image(im, size)
-                im2.save("abc.jpg")
+                im2.save(output_file)
+
+                # im = im.resize(size, Image.LANCZOS)
+                # im.save("pillow-simd-output.jpg")
 
         except OSError:
             print("cannot create thumbnail for", infile)
+
+# im = Image.open("Membeli-Properti.jpg")
+# im2 = ImageOps.fit(im, size, Image.LANCZOS, bleed=0.0, centering=(0.5,0.5))
+# # im = im.resize(size, Image.LANCZOS)
+# im2.save("pillow-simd-output.jpg")
+
+time2 = time.time()
+print("%s miliseconds"%((time2-time1)*1000))
